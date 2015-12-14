@@ -11,7 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151214013524) do
+ActiveRecord::Schema.define(version: 20151214023026) do
+
+  create_table "cities", force: :cascade do |t|
+    t.string  "name"
+    t.string  "code"
+    t.integer "province_id"
+  end
+
+  add_index "cities", ["province_id"], name: "index_cities_on_province_id"
+
+  create_table "districts", force: :cascade do |t|
+    t.string  "name"
+    t.string  "code"
+    t.integer "city_id"
+  end
+
+  add_index "districts", ["city_id"], name: "index_districts_on_city_id"
+
+  create_table "provinces", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+  end
 
   create_table "states", force: :cascade do |t|
     t.string "name"

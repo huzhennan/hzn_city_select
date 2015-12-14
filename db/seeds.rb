@@ -50,9 +50,9 @@ module CityDataGenerater
   end
 
   class << self
-    def load_state
+    def load_province
       # 先清理了原有的
-      State.destroy_all
+      Province.destroy_all
 
       @states =[]
       # byebug
@@ -63,25 +63,28 @@ module CityDataGenerater
         }
       end
 
-      State.create!(@states)
+      Province.create!(@states)
     end
 
     def load_city
+      # 清理
+      City.destroy_all
+
       @cities = []
       data.fetch("city").each do |city|
         # byebug
         code = city.fetch("id")
-        province_code = province(code)
-        province = Spree::State.find_by(abbr: province_code)
+        state_code = province(code)
+        state = Province.find_by(code: state_code)
 
         @cities << {
             name: city.fetch("text"),
             code: code,
-            state: province
+            province: state
         }
       end
 
-      Spree::City.create!(@cities)
+      City.create!(@cities)
     end
 
     def load_districts
@@ -89,7 +92,7 @@ module CityDataGenerater
       data.fetch("district").each do |district|
         code = district.fetch("id")
         city_code = city(code)
-        city = ::Spree::City.find_by(code: city_code)
+        city = City.find_by(code: city_code)
 
         @districts << {
             name: district.fetch("text"),
@@ -98,9 +101,11 @@ module CityDataGenerater
         }
       end
 
-      Spree::District.create!(@districts)
+      District.create!(@districts)
     end
   end
 end
 
-CityDataGenerater.load_state
+CityDataGenerater.load_province
+CityDataGenerater.load_city
+CityDataGenerater.load_districts

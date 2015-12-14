@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
-  get 'welcome/index'
-
   namespace :api, defaults: {format: 'json'} do
-    resources :states, only: [:index]
+    resources :states, only: [:index] do
+      resources :cities, only: [:index, :show]
+    end
+
+    resources :cities, only: [] do
+      resources :districts, only: [:index, :show]
+    end
   end
 
   root 'welcome#index'
