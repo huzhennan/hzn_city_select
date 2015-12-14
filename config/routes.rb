@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   namespace :api, defaults: {format: 'json'} do
-    resources :states, only: [:index] do
+    resources :provinces, only: [:index] do
       resources :cities, only: [:index, :show]
     end
 

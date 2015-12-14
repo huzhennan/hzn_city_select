@@ -88,11 +88,14 @@ module CityDataGenerater
     end
 
     def load_districts
+      District.destroy_all
+
       @districts = []
       data.fetch("district").each do |district|
         code = district.fetch("id")
         city_code = city(code)
         city = City.find_by(code: city_code)
+        # byebug
 
         @districts << {
             name: district.fetch("text"),

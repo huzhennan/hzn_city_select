@@ -87,5 +87,6 @@ crashlytics.properties
 crashlytics-build.properties
 
 .rake_tasks~
+.byebug_history
 
 
