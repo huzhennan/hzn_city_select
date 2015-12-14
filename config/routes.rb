@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
+  get 'welcome/index'
+
   namespace :api, defaults: {format: 'json'} do
     resources :states, only: [:index]
   end
+
+  root 'welcome#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
